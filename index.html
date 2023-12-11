@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>妞妞的作业</title>
+    <style>
+      div {
+        box-sizing: border-box;
+      }
+      .title {
+        text-align: center;
+        color: #5f5f5f;
+        line-height: 40px;
+      }
+      .topic {
+        width: 20%;
+        border: 1px solid rgba(0, 0, 0, 0.88);
+        color: rgba(0, 0, 0, 0.88);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 11px 40px 11px 0;
+        float: left;
+        margin-left: -1px;
+        margin-top: -1px;
+      }
+      .topic:nth-child(1 + 5n) {
+        margin-left: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">妞妞学习专用：20以下算数100题</div>
+    <div id="topics"></div>
+  </body>
+</html>
+<script>
+  const type = ["-", "+"];
+  const topics = [];
+  while (topics.length < 90) {
+    const num1 = Math.ceil(+(Math.random() * 19));
+    const num2 = Math.ceil(+(Math.random() * 19));
+    const topicType = Math.random() > 0.5 ? type[0] : type[1];
+    const result = topicType === type[0] ? num1 - num2 : num1 + num2;
+    if (
+      // 和小于 20
+      result > 20 ||
+      // 结果大于 10
+      result < 10 ||
+      // 有一个数大于10
+      (num1 < 10 && num2 < 10)
+    ) {
+      continue;
+    }
+    const topicArr = [num1, topicType, num2, result];
+    if (
+      !topics.find(
+        (item) =>
+          item[0] === topicArr[0] &&
+          item[1] === topicArr[1] &&
+          item[2] === topicArr[2]
+      )
+    ) {
+      topics.push(topicArr);
+    }
+  }
+  while (topics.length < 100) {
+    const num1 = Math.ceil(+(Math.random() * 19));
+    const num2 = Math.ceil(+(Math.random() * 19));
+    const num3 = Math.ceil(+(Math.random() * 19));
+    const topic1Type = Math.random() > 0.5 ? type[0] : type[1];
+    const topic2Type = Math.random() > 0.5 ? type[0] : type[1];
+    const result1 = topic1Type === type[0] ? num1 - num2 : num1 + num2;
+    const result2 = topic2Type === type[0] ? result1 - num3 : result1 + num3;
+
+    if (
+      result1 > 20 ||
+      result2 > 20 ||
+      result1 < 0 ||
+      result2 < 10 ||
+      (num1 < 10 && num2 < 10) ||
+      (result1 < 10 && num3 < 10)
+    ) {
+      continue;
+    }
+    const topicArr = [num1, topic1Type, num2, topic2Type, num3, result2];
+    if (
+      !topics.find(
+        (item) =>
+          item[0] === topicArr[0] &&
+          item[1] === topicArr[1] &&
+          item[2] === topicArr[2] &&
+          item[3] === topicArr[3] &&
+          item[4] === topicArr[4]
+      )
+    ) {
+      topics.push(topicArr);
+    }
+  }
+  topics.forEach((t) => {
+    const node = document.createElement("div");
+    node.className = "topic";
+    node.textContent = `${t
+      .slice(0, -1)
+      .map((i) => i + " ")
+      .join("")} = `;
+    document.getElementById("topics").appendChild(node);
+  });
+  console.log(topics);
+</script>
